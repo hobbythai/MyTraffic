@@ -1,6 +1,8 @@
 package com.hobbythai.android.mytraffic;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -48,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 MediaPlayer buttonMediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.dog); //get base internal mem
                 buttonMediaPlayer.start();
 
+                //intent web
+                Intent objIntent = new Intent(Intent.ACTION_VIEW); //action view chang to Call or Sms
+                objIntent.setData(Uri.parse("https://youtu.be/2sdaSv3HBUU"));
+                startActivity(objIntent);
 
             }
         });
