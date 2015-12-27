@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -38,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private void listViewControl() {
 
         //array assignment #1
-        int[] intIcon = {R.drawable.traffic_01, R.drawable.traffic_02, R.drawable.traffic_03, R.drawable.traffic_04,
+        final int[] intIcon = {R.drawable.traffic_01, R.drawable.traffic_02, R.drawable.traffic_03, R.drawable.traffic_04,
                 R.drawable.traffic_05, R.drawable.traffic_06, R.drawable.traffic_07, R.drawable.traffic_08, R.drawable.traffic_09,
                 R.drawable.traffic_10, R.drawable.traffic_11, R.drawable.traffic_12, R.drawable.traffic_13, R.drawable.traffic_14,
                 R.drawable.traffic_15, R.drawable.traffic_16, R.drawable.traffic_17, R.drawable.traffic_18, R.drawable.traffic_19,
                 R.drawable.traffic_20};
 
         //#2
-        String[] strTitle = new String[20]; //book var 20 = null
+        final String[] strTitle = new String[20]; //book var 20 = null
         strTitle[0] = "หัวข้อ 1";
         strTitle[1] = "หัวข้อ 2";
         strTitle[2] = "หัวข้อ 3";
@@ -71,8 +72,26 @@ public class MainActivity extends AppCompatActivity {
         String[] strDetail = getResources().getStringArray(R.array.detail_short);
 
         //call MyAdapter
-        MyAdapter objMyAdapter = new MyAdapter(MainActivity.this, strTitle, strDetail, intIcon);
+        MyAdapter objMyAdapter = new MyAdapter(getApplicationContext(), strTitle, strDetail, intIcon); //call adapter
         trafficListView.setAdapter(objMyAdapter);
+
+        //active when click on listview
+        trafficListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Toast.makeText(getApplicationContext(), "Click "+position, Toast.LENGTH_SHORT).show();
+
+                //intent to detail activity
+                Intent objIntent = new Intent(MainActivity.this, DetailActivity.class);
+                //push data
+                objIntent.putExtra("title", strTitle[position]);
+                objIntent.putExtra("image", intIcon[position]);
+                objIntent.putExtra("index", position);
+                startActivity(objIntent);
+
+            }//event
+        });
 
 
     }//list view control
@@ -93,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent objIntent = new Intent(Intent.ACTION_VIEW); //action view chang to Call or Sms
                 objIntent.setData(Uri.parse("http://www.hobbythai.com/"));
                 startActivity(objIntent);
+
 
             }
         });
